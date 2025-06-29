@@ -8,10 +8,10 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 # =========== CONFIGURE THESE ===========
 API_ID = 29569239
 API_HASH = "b2407514e15f24c8ec2c735e8018acd7"
-BOT_TOKEN = "7617922225:AAE7xRwHXK--FWUo_MdlaKm1ZT-7gkuu4Nk"  # Replace if leaked
+BOT_TOKEN = "7248471472:AAHsWsv7H61PX8_ydj0hXs7xpcK0XNTmQCA"
 
-SOURCE_GROUPS = [-1002621183707]  # From where CCs are scraped
-TARGET_CHANNEL = -1002871766358   # Must be INT (no quotes), and bot must be admin
+SOURCE_GROUPS = [-1002621183707]      # Source group for scraped CCs
+TARGET_CHANNEL = -1002871766358       # Private/public channel ID (bot must be admin)
 
 MAIN_CHANNEL_LINK = "https://t.me/approvedccm"
 BACKUP_CHANNEL_LINK = "https://t.me/+70mI9Ce2U_JlMGJl"
@@ -89,16 +89,19 @@ async def cc_scraper(client, message):
             ]
         ])
 
+        peer = None
         try:
-            # 🔑 FIX: resolve peer for private channels
             peer = await app.resolve_peer(TARGET_CHANNEL)
             await app.send_message(peer, msg, parse_mode="html", reply_markup=keyboard)
         except Exception as e:
             logging.error(f"Send error: {e} -- retrying without parse_mode")
-            try:
-                await app.send_message(peer, msg, reply_markup=keyboard)
-            except Exception as e2:
-                logging.error(f"Second send attempt failed: {e2}")
+            if peer:
+                try:
+                    await app.send_message(peer, msg, reply_markup=keyboard)
+                except Exception as e2:
+                    logging.error(f"Second send attempt failed: {e2}")
+            else:
+                logging.error("❌ Peer could not be resolved — skipping retry.")
 
 # ================ Run Bot ==================
 
