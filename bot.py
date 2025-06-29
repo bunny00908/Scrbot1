@@ -8,7 +8,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 # =========== CONFIGURE THESE ===========
 API_ID = 29569239  # from https://my.telegram.org
 API_HASH = "b2407514e15f24c8ec2c735e8018acd7"
-BOT_TOKEN = "REPLACE_WITH_YOUR_NEW_BOT_TOKEN"
+BOT_TOKEN = "7617922225:AAE7xRwHXK--FWUo_MdlaKm1ZT-7gkuu4Nk"
 
 SOURCE_GROUPS = [-1002621183707]  # Group ID where CC logs come from
 TARGET_CHANNEL = -1002871766358   # Private channel ID, no quotes
