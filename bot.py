@@ -6,20 +6,18 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # =========== CONFIGURE THESE ===========
-API_ID = 29569239  # from https://my.telegram.org
+API_ID = 29569239
 API_HASH = "b2407514e15f24c8ec2c735e8018acd7"
-BOT_TOKEN = "7617922225:AAE7xRwHXK--FWUo_MdlaKm1ZT-7gkuu4Nk"
+BOT_TOKEN = "7617922225:AAE7xRwHXK--FWUo_MdlaKm1ZT-7gkuu4Nk"  # Replace if leaked
 
-SOURCE_GROUPS = [-1002621183707]  # Group ID where CC logs come from
-TARGET_CHANNEL = -1002871766358   # Private channel ID, no quotes
+SOURCE_GROUPS = [-1002621183707]  # From where CCs are scraped
+TARGET_CHANNEL = -1002871766358   # Must be INT (no quotes), and bot must be admin
 
 MAIN_CHANNEL_LINK = "https://t.me/approvedccm"
 BACKUP_CHANNEL_LINK = "https://t.me/+70mI9Ce2U_JlMGJl"
 # =======================================
 
-# Enable logging
 logging.basicConfig(level=logging.INFO)
-
 app = Client("scrbot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 # ================= Utility Functions ===================
@@ -92,7 +90,7 @@ async def cc_scraper(client, message):
         ])
 
         try:
-            # 🛠 FIX: Resolve the peer to avoid PEER_ID_INVALID
+            # 🔑 FIX: resolve peer for private channels
             peer = await app.resolve_peer(TARGET_CHANNEL)
             await app.send_message(peer, msg, parse_mode="html", reply_markup=keyboard)
         except Exception as e:
